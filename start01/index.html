@@ -11,39 +11,19 @@
   </header>
   <div class="container">
     <div id="img_unit">
-
     </div>
   </div>
-
+  <script src="js/jquery.min.js"></script>
   <script>
-    var ajax = new XMLHttpRequest();
-    ajax.open('GET', 'https://h2o-space.com/htmlbook/images.php');
-    ajax.responseType = 'json';
-    ajax.send(null);
-
-    ajax.onreadystatechange = function() {
-      if (ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
-        for (var i=0; i<this.response.length; i++) {
-          var data = this.response[i];
-
-          var img = document.createElement('img');
-          img.setAttribute('src', data.path);
-
-          var caption = document.createElement('div');
-          caption.className = 'inner';
-          caption.innerHTML = '<p>' + data.caption +
-          '<span>' + data.name + '</span></p>';
-
-          var div = document.createElement('div');
-          div.className = 'photo';
-          div.appendChild(img);
-          div.appendChild(caption);
-
-          document.getElementById('img_unit').appendChild
-          (div);
-        }
+    $.getJSON('https://h2o-space.com/htmlbook/images.php', function(data) {
+      for (var i=0; i<data.length; i++) {
+        $('<div class="photo"></div>')
+          .append('<img src="' + data[i].path + '">')
+          .append('<div class="inner"></p>' + data[i].caption
+          + '<span>' + data[i].name + '</span></p></div>')
+          .appendTo('#img_unit');
       }
-    };
+    });
   </script>
 </body>
 </html>
